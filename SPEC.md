@@ -1,4 +1,4 @@
-# dagon-infra-module — Specification
+# arxen-infra-module — Specification
 
 ## Purpose
 
@@ -46,7 +46,7 @@ modules/
 
 ## Module Interface Contract
 
-Every module — regardless of cloud — must follow this contract to enable consistent consumption by `dagon-infra-live` and `dagon-templates`.
+Every module — regardless of cloud — must follow this contract to enable consistent consumption by `arxen-infra-live` and `arxen-templates`.
 
 ### Required Files per Module
 
@@ -66,7 +66,7 @@ Every module MUST accept these variables:
 ```hcl
 variable "tenant_id" {
   type        = string
-  description = "Dagon tenant identifier (internal UUID). Used for tagging and naming."
+  description = "Arxen tenant identifier (internal UUID). Used for tagging and naming."
 }
 
 variable "environment" {
@@ -122,7 +122,7 @@ output "connection_string" {
 **Key variables:**
 | Variable | Type | Description |
 |---|---|---|
-| `tenant_id` | string | Dagon tenant ID |
+| `tenant_id` | string | Arxen tenant ID |
 | `environment` | string | dev / stage / prod |
 | `location` | string | Azure region (e.g., `eastus2`) |
 | `subscription_id` | string | Target Azure subscription |
@@ -176,7 +176,7 @@ output "connection_string" {
 
 ### `modules/azure/postgresql/`
 
-**Purpose:** PostgreSQL Flexible Server for `dagon-api` and tenant workloads.
+**Purpose:** PostgreSQL Flexible Server for `arxen-api` and tenant workloads.
 
 **Security defaults:**
 - `delegated_subnet_id` required — no public access
@@ -210,7 +210,7 @@ When adding AWS or GCP, mirror the module catalog:
 Modules are versioned via Git tags. Callers pin to a tag:
 
 ```hcl
-source = "git::https://github.com/<org>/dagon-infra-module.git//modules/azure/aks?ref=v2.1.0"
+source = "git::https://github.com/<org>/arxen-infra-module.git//modules/azure/aks?ref=v2.1.0"
 ```
 
 **Semver policy:**

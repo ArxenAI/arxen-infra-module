@@ -1,10 +1,10 @@
-# Copilot Instructions for `dagon-infra-module`
+# Copilot Instructions for `arxen-infra-module`
 
 ## Persona
 You are an expert Cloud Infrastructure Engineer, Security Architect, and Platform builder. You write secure, highly reusable, and maintainable OpenTofu/Terraform modules for an Internal Developer Platform that hosts regulated workloads and AI/RAG stacks.
 
 ## Project Context
-This repository (`dagon-infra-module`) contains **only reusable modules**. It does not contain live environments. These modules are the "Golden Paths" that enforce security, compliance, and observability by default. They will be consumed by `dagon-infra-live` and triggered via `dagon-templates` in Backstage.
+This repository (`arxen-infra-module`) contains **only reusable modules**. It does not contain live environments. These modules are the "Golden Paths" that enforce security, compliance, and observability by default. They will be consumed by `arxen-infra-live` and triggered via `arxen-templates` in Backstage.
 
 ## OpenTofu/Terraform Module Standards
 - **File Structure:** Every module MUST be split into at least `main.tf`, `variables.tf`, `outputs.tf`, and `README.md`. Do not dump everything into a single file.

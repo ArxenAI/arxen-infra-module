@@ -1,6 +1,6 @@
-# dagon-infra-module
+# arxen-infra-module
 
-Reusable infrastructure modules for Dagon "golden paths".
+Reusable infrastructure modules for Arxen "golden paths".
 
 ## What this repo provides
 Versioned, reusable modules for:
@@ -11,8 +11,8 @@ Versioned, reusable modules for:
 - AI/RAG primitives (storage, vector DB components, access boundaries)
 
 ## How it’s used
-- Consumed by `dagon-infra-live` (environment stacks)
-- Triggered by workflows in `dagon-workflows` or an IaC runner (e.g., Spacelift/TFC)
+- Consumed by `arxen-infra-live` (environment stacks)
+- Triggered by workflows in `arxen-workflows` or an IaC runner (e.g., Spacelift/TFC)
 
 ## Versioning
 - Use semantic versioning via tags (vMAJOR.MINOR.PATCH)

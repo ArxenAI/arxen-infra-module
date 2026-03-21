@@ -1,8 +1,8 @@
-# dagon-infra-module — Claude Code Guide
+# arxen-infra-module — Claude Code Guide
 
 ## Purpose
 
-Reusable OpenTofu modules — the "Golden Paths" of the platform. Consumed by `dagon-infra-live` and surfaced to developers via `dagon-templates`. Contains no live environments and no backend state configuration.
+Reusable OpenTofu modules — the "Golden Paths" of the platform. Consumed by `arxen-infra-live` and surfaced to developers via `arxen-templates`. Contains no live environments and no backend state configuration.
 
 ## Architecture
 
