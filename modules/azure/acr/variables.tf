@@ -2,8 +2,8 @@ variable "tenant_id" {
   type        = string
   description = "Arxen tenant identifier. Must be a UUID. Used in resource naming and tagging."
   validation {
-    condition     = can(regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", var.tenant_id))
-    error_message = "tenant_id must be a valid UUID (lowercase hex)."
+    condition     = can(regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", var.tenant_id))
+    error_message = "tenant_id must be a valid UUID (e.g., '550e8400-e29b-41d4-a716-446655440000')."
   }
 }
 
