@@ -38,10 +38,18 @@ variable "retention_in_days" {
   type        = number
   description = "Number of days to retain logs in the workspace."
   default     = 30
+  validation {
+    condition     = var.retention_in_days >= 30 && var.retention_in_days <= 730
+    error_message = "retention_in_days must be between 30 and 730."
+  }
 }
 
 variable "sku" {
   type        = string
   description = "Log Analytics Workspace SKU."
   default     = "PerGB2018"
+  validation {
+    condition     = contains(["PerGB2018", "CapacityReservation"], var.sku)
+    error_message = "sku must be 'PerGB2018' or 'CapacityReservation'."
+  }
 }

@@ -35,10 +35,10 @@ module "aks" {
 When `name_override` is not set, the workspace is named using the pattern:
 
 ```
-<environment>-law-<first-8-chars-of-tenant-id>
+<environment>-log-<first-8-chars-of-tenant-id>
 ```
 
-For example, tenant `a1b2c3d4-...` in `prod` becomes `prod-law-a1b2c3d4`.
+For example, tenant `a1b2c3d4-...` in `prod` becomes `prod-log-a1b2c3d4`.
 
 ## Inputs
 

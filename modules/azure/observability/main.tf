@@ -1,6 +1,6 @@
 locals {
   short_tenant = substr(var.tenant_id, 0, 8)
-  name         = coalesce(var.name_override, "${var.environment}-law-${local.short_tenant}")
+  name         = coalesce(var.name_override, "${var.environment}-log-${local.short_tenant}")
   default_tags = {
     tenant_id   = var.tenant_id
     environment = var.environment
