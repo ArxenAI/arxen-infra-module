@@ -83,6 +83,10 @@ module "ai_workspace" {
   # Optional Application Insights — omit or set null to skip
   application_insights_id = azurerm_application_insights.ml.id
 
+  # Private networking — required when public_network_access_enabled = false (the default)
+  private_endpoint_subnet_id = module.vnet.private_endpoints_subnet_id
+  vnet_id                    = module.vnet.vnet_id
+
   tags = {
     cost_center = "ml-platform"
     team        = "data-science"
@@ -105,6 +109,8 @@ module "ai_workspace" {
 | `public_network_access_enabled` | `bool` | no | `false` | Whether to enable public network access. Must be `false` for production. |
 | `image_build_compute_name` | `string` | no | `null` | Name of the compute target for image builds. |
 | `name_override` | `string` | no | `null` | Override the auto-generated workspace name. |
+| `private_endpoint_subnet_id` | `string` | no | `null` | Subnet ID for the AI workspace private endpoint. Use `azure/vnet` `private_endpoints_subnet_id` output. Required when `public_network_access_enabled` is `false`. |
+| `vnet_id` | `string` | no | `null` | VNet ID for private DNS zone virtual network link. Required when `private_endpoint_subnet_id` is set. |
 | `tags` | `map(string)` | no | `{}` | Additional tags to merge with default module tags. |
 
 ## Outputs
@@ -131,3 +137,6 @@ Example: `dev-mlws-a1b2c3d4`.
 | Resource | Purpose |
 |---|---|
 | `azurerm_machine_learning_workspace.main` | The Azure ML Workspace instance |
+| `azurerm_private_dns_zone.workspace` | Private DNS zone for `privatelink.api.azureml.ms` (created when `private_endpoint_subnet_id` is set) |
+| `azurerm_private_dns_zone_virtual_network_link.workspace` | Links the private DNS zone to the VNet (created when `private_endpoint_subnet_id` is set) |
+| `azurerm_private_endpoint.workspace` | Private endpoint for the ML Workspace (created when `private_endpoint_subnet_id` is set) |

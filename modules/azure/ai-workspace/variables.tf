@@ -70,3 +70,15 @@ variable "image_build_compute_name" {
   description = "Name of the compute target for image builds. Optional."
   default     = null
 }
+
+variable "private_endpoint_subnet_id" {
+  type        = string
+  description = "Subnet ID for the AI workspace private endpoint. Use azure/vnet private_endpoints_subnet_id output. Required when public_network_access_enabled is false."
+  default     = null
+}
+
+variable "vnet_id" {
+  type        = string
+  description = "VNet ID for private DNS zone virtual network link. Required when private_endpoint_subnet_id is set."
+  default     = null
+}

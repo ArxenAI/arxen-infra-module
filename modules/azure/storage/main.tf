@@ -49,6 +49,13 @@ resource "azurerm_storage_account" "main" {
   }
 
   tags = local.tags
+
+  lifecycle {
+    precondition {
+      condition     = var.key_vault_key_id == null || var.user_assigned_identity_id != null
+      error_message = "user_assigned_identity_id must be set when key_vault_key_id is provided for CMK encryption."
+    }
+  }
 }
 
 resource "azurerm_private_dns_zone" "blob" {

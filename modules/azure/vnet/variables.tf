@@ -38,6 +38,9 @@ variable "name_override" {
   default     = null
 }
 
+# NOTE: The CIDR defaults below are suitable for single-tenant development deployments.
+# In production or multi-tenant deployments, always override these values to prevent
+# address space collisions across tenants and environments.
 variable "address_space" {
   type        = list(string)
   description = "Address space for the Virtual Network."

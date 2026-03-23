@@ -106,3 +106,15 @@ variable "entra_auth_enabled" {
   description = "Enable Azure Active Directory (Entra ID) authentication alongside password auth. Recommended for production workloads using managed identities."
   default     = false
 }
+
+variable "key_vault_key_id" {
+  type        = string
+  description = "Key Vault key ID for customer-managed encryption (CMK). Required for stage/prod per SPEC.md security standards. Set to null to use service-managed keys (dev only)."
+  default     = null
+}
+
+variable "user_assigned_identity_id" {
+  type        = string
+  description = "Resource ID of a User-Assigned Managed Identity with 'Key Vault Crypto Service Encryption User' role. Required when key_vault_key_id is set."
+  default     = null
+}

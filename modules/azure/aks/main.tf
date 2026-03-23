@@ -15,7 +15,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   name                = local.name
   location            = var.location
   resource_group_name = var.resource_group_name
-  dns_prefix          = "${var.environment}-aks"
+  dns_prefix          = "${var.environment}-aks-${local.short_tenant}"
   kubernetes_version  = var.kubernetes_version
   tags                = local.tags
 
