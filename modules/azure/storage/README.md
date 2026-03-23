@@ -15,6 +15,8 @@ The following settings are hardcoded and cannot be overridden by callers:
 
 A private endpoint (`pep-st-<short_tenant>`) is always created and wired to a module-managed private DNS zone (`privatelink.blob.core.windows.net`), ensuring the storage account is only reachable from within the VNet.
 
+Customer-Managed Key (CMK) encryption is supported via the `key_vault_key_id` and `user_assigned_identity_id` variables. For `stage` and `prod` environments, CMK is required per platform security standards. For `dev`, Microsoft-managed keys are used by default.
+
 ## Storage Account Naming
 
 Azure Storage Account names must be **3-24 characters, lowercase alphanumeric only** (no hyphens or underscores).
@@ -76,6 +78,8 @@ module "ai_workspace" {
 | `name_override` | `string` | `null` | no | Override auto-generated storage account name. Must be 3-24 lowercase alphanumeric chars. |
 | `account_tier` | `string` | `"Standard"` | no | Performance tier: `Standard` or `Premium`. |
 | `account_replication_type` | `string` | `"LRS"` | no | Replication type: `LRS`, `ZRS`, `GRS`, `GZRS`, `RAGRS`, or `RAGZRS`. Use `GRS`/`GZRS` for stage/prod. |
+| `key_vault_key_id` | `string` | `null` | no | Key Vault key ID for customer-managed encryption (CMK). When provided, CMK is enabled on the storage account. Required for stage/prod per platform security standards. |
+| `user_assigned_identity_id` | `string` | `null` | no | Resource ID of a User-Assigned Managed Identity with `Key Vault Crypto Service Encryption User` role on the Key Vault. Required when `key_vault_key_id` is set. |
 
 ## Outputs
 

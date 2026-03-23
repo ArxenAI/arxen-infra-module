@@ -71,3 +71,15 @@ variable "account_replication_type" {
     error_message = "account_replication_type must be one of: LRS, ZRS, GRS, GZRS, RAGRS, RAGZRS."
   }
 }
+
+variable "key_vault_key_id" {
+  type        = string
+  description = "Key Vault key ID for customer-managed encryption (CMK). When provided, a User-Assigned Managed Identity and CMK are configured on the storage account. Required for stage/prod per CLAUDE.md security standards. Set to null to use Microsoft-managed keys (dev only)."
+  default     = null
+}
+
+variable "user_assigned_identity_id" {
+  type        = string
+  description = "Resource ID of a User-Assigned Managed Identity with 'Key Vault Crypto Service Encryption User' role on the Key Vault. Required when key_vault_key_id is set."
+  default     = null
+}
