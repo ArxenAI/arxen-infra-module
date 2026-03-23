@@ -24,7 +24,7 @@ output "fqdn" {
 }
 
 output "connection_string" {
-  description = "PostgreSQL connection string. Handle as a secret."
-  value       = "postgresql://${azurerm_postgresql_flexible_server.main.administrator_login}@${azurerm_postgresql_flexible_server.main.name}:5432/postgres?sslmode=require"
+  description = "PostgreSQL connection string including credentials. Handle as a secret."
+  value       = "postgresql://${azurerm_postgresql_flexible_server.main.administrator_login}:${var.administrator_password}@${azurerm_postgresql_flexible_server.main.fqdn}:5432/postgres?sslmode=require"
   sensitive   = true
 }

@@ -28,7 +28,7 @@ resource "azurerm_postgresql_flexible_server" "main" {
   backup_retention_days = 35 # SPEC.md mandates 35 days
 
   authentication {
-    active_directory_auth_enabled = false
+    active_directory_auth_enabled = var.entra_auth_enabled
     password_auth_enabled         = true
   }
 

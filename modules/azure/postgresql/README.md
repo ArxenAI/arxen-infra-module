@@ -89,6 +89,7 @@ module "postgresql" {
 | `postgresql_version` | `string` | `"15"` | no | PostgreSQL major version: `14`, `15`, or `16`. |
 | `geo_redundant_backup_enabled` | `bool` | `false` | no | Enable geo-redundant backups. Recommended for `stage` and `prod`. |
 | `zone` | `string` | `"1"` | no | Availability zone for the primary server: `1`, `2`, or `3`. |
+| `entra_auth_enabled` | `bool` | `false` | no | Enable Azure Active Directory (Entra ID) authentication. **Recommended for production workloads using managed identities.** |
 
 ## Outputs
 

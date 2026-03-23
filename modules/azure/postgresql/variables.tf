@@ -100,3 +100,9 @@ variable "zone" {
     error_message = "zone must be '1', '2', or '3'."
   }
 }
+
+variable "entra_auth_enabled" {
+  type        = bool
+  description = "Enable Azure Active Directory (Entra ID) authentication alongside password auth. Recommended for production workloads using managed identities."
+  default     = false
+}
