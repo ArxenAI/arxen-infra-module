@@ -19,6 +19,6 @@ output "workspace_id" {
 
 output "discovery_url" {
   description = "The workspace discovery URL used by Azure ML SDK clients."
-  value       = try(azurerm_machine_learning_workspace.main.discovery_url, "")
+  value       = azurerm_machine_learning_workspace.main.discovery_url
   sensitive   = false
 }
