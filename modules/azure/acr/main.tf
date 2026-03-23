@@ -1,8 +1,8 @@
 locals {
   short_tenant = substr(var.tenant_id, 0, 8)
-  # ACR names: 5-50 chars, alphanumeric only (no hyphens). Remove hyphens from generated name.
-  name_raw     = coalesce(var.name_override, "${var.environment}acr${local.short_tenant}")
-  name         = replace(local.name_raw, "-", "")
+  # ACR names must be 5-50 alphanumeric chars (no hyphens). Auto-generated name is always valid.
+  # name_override is used as-is — caller is responsible for ACR naming rule compliance.
+  name = coalesce(var.name_override, "${var.environment}acr${local.short_tenant}")
   default_tags = {
     tenant_id   = var.tenant_id
     environment = var.environment
@@ -23,9 +23,10 @@ resource "azurerm_container_registry" "main" {
 
   dynamic "georeplications" {
     for_each = var.georeplications
+    iterator = geo
     content {
-      location                = georeplications.value.location
-      zone_redundancy_enabled = georeplications.value.zone_redundancy_enabled
+      location                = geo.value.location
+      zone_redundancy_enabled = geo.value.zone_redundancy_enabled
     }
   }
 }

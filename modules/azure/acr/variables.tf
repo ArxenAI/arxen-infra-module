@@ -34,8 +34,12 @@ variable "tags" {
 
 variable "name_override" {
   type        = string
-  description = "Override the auto-generated ACR name."
+  description = "Override the auto-generated ACR name. Must be 5-50 alphanumeric characters (no hyphens). If null, auto-generated name is used."
   default     = null
+  validation {
+    condition     = var.name_override == null || can(regex("^[a-zA-Z0-9]{5,50}$", var.name_override))
+    error_message = "name_override must be 5-50 alphanumeric characters (no hyphens or underscores) to comply with Azure Container Registry naming rules."
+  }
 }
 
 variable "private_endpoint_subnet_id" {
