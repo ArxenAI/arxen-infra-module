@@ -10,6 +10,8 @@ output "resource_name" {
   sensitive   = false
 }
 
+# vnet_id is an ergonomic alias for resource_id, allowing callers to use
+# module.vnet.vnet_id which reads more clearly in networking contexts.
 output "vnet_id" {
   description = "The ARM resource ID of the Virtual Network (alias for resource_id)."
   value       = azurerm_virtual_network.main.id
@@ -35,7 +37,7 @@ output "private_endpoints_subnet_id" {
 }
 
 output "appgw_subnet_id" {
-  description = "Subnet ID for the Application Gateway. Empty string if enable_appgw_subnet is false."
-  value       = var.enable_appgw_subnet ? azurerm_subnet.appgw[0].id : ""
+  description = "Subnet ID for the Application Gateway. null if enable_appgw_subnet is false."
+  value       = var.enable_appgw_subnet ? azurerm_subnet.appgw[0].id : null
   sensitive   = false
 }
