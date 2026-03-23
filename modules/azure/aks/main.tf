@@ -2,10 +2,11 @@ locals {
   short_tenant = substr(var.tenant_id, 0, 8)
   name         = coalesce(var.name_override, "${var.environment}-aks-${local.short_tenant}")
   default_tags = {
-    tenant_id   = var.tenant_id
-    environment = var.environment
-    managed_by  = "opentofu"
-    module      = "arxen-infra-module/azure/aks"
+    tenant_id       = var.tenant_id
+    environment     = var.environment
+    managed_by      = "opentofu"
+    module          = "arxen-infra-module/azure/aks"
+    subscription_id = var.subscription_id
   }
   tags = merge(local.default_tags, var.tags)
 }
@@ -32,9 +33,8 @@ resource "azurerm_kubernetes_cluster" "main" {
     vm_size        = var.node_vm_size
     vnet_subnet_id = var.vnet_subnet_id
     # Ephemeral OS disks reduce attack surface and improve node startup time
-    os_disk_type    = "Ephemeral"
-    os_disk_size_gb = 128
-    tags            = local.tags
+    os_disk_type = "Ephemeral"
+    tags         = local.tags
   }
 
   network_profile {
