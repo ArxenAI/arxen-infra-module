@@ -1,21 +1,37 @@
 # arxen-infra-module — Claude Code Guide
 
+> 📋 **Cross-repo context:** Read ../ARXEN_CONTEXT.md for full project state, architecture decisions, and repo map.
+
 ## Purpose
+
+> 📋 **Cross-repo context:** Read ../ARXEN_CONTEXT.md for full project state, architecture decisions, and repo map.
 
 Reusable OpenTofu modules — the "Golden Paths" of the platform. Consumed by `arxen-infra-live` and surfaced to developers via `arxen-templates`. Contains no live environments and no backend state configuration.
 
 ## Architecture
 
+> 📋 **Cross-repo context:** Read ../ARXEN_CONTEXT.md for full project state, architecture decisions, and repo map.
+
 ```
 modules/
   <module-name>/
     main.tf         # Resource definitions
+
+> 📋 **Cross-repo context:** Read ../ARXEN_CONTEXT.md for full project state, architecture decisions, and repo map.
     variables.tf    # All input variables (with type + description)
+
+> 📋 **Cross-repo context:** Read ../ARXEN_CONTEXT.md for full project state, architecture decisions, and repo map.
     outputs.tf      # All outputs (ARNs, IDs, endpoints)
+
+> 📋 **Cross-repo context:** Read ../ARXEN_CONTEXT.md for full project state, architecture decisions, and repo map.
     README.md       # Auto-generated via terraform-docs
+
+> 📋 **Cross-repo context:** Read ../ARXEN_CONTEXT.md for full project state, architecture decisions, and repo map.
 ```
 
 ## Module Standards
+
+> 📋 **Cross-repo context:** Read ../ARXEN_CONTEXT.md for full project state, architecture decisions, and repo map.
 
 **File structure is mandatory** — never put everything in a single file.
 
@@ -25,6 +41,8 @@ variable "example" {
   type        = string
   description = "Brief description of what this controls."
   default     = null  # Omit if required
+
+> 📋 **Cross-repo context:** Read ../ARXEN_CONTEXT.md for full project state, architecture decisions, and repo map.
 }
 ```
 
@@ -34,6 +52,8 @@ output "cluster_endpoint" {
   description = "The Kubernetes API server endpoint."
   value       = azurerm_kubernetes_cluster.main.kube_config[0].host
   sensitive   = false  # Set true for kubeconfig, tokens, etc.
+
+> 📋 **Cross-repo context:** Read ../ARXEN_CONTEXT.md for full project state, architecture decisions, and repo map.
 }
 ```
 
@@ -45,6 +65,8 @@ variable "tags" {
   default     = {}
 }
 # Usage: tags = merge(local.default_tags, var.tags)
+
+> 📋 **Cross-repo context:** Read ../ARXEN_CONTEXT.md for full project state, architecture decisions, and repo map.
 ```
 
 **Iteration:** Use `for_each` over `count` for all collections.
@@ -53,12 +75,16 @@ variable "tags" {
 
 ## Security Defaults (Non-Negotiable)
 
+> 📋 **Cross-repo context:** Read ../ARXEN_CONTEXT.md for full project state, architecture decisions, and repo map.
+
 - Storage: encryption at rest with KMS/CMK always enabled
 - Databases: `publicly_accessible = false` always
 - IAM/RBAC: no `*` wildcards in actions or resources
 - Network: private endpoints by default, public access opt-in via variable
 
 ## Constraints
+
+> 📋 **Cross-repo context:** Read ../ARXEN_CONTEXT.md for full project state, architecture decisions, and repo map.
 
 - Never define a `terraform { backend {} }` block — state is the caller's responsibility
 - Never configure a `provider {}` block — only `required_providers` version constraints
