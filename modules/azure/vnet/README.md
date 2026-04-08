@@ -70,7 +70,11 @@ module "keyvault" {
 | `aks_nodes_subnet_id` | Subnet ID for the AKS node pool. |
 | `aks_pods_subnet_id` | Subnet ID for the AKS pod CIDR (CNI). |
 | `private_endpoints_subnet_id` | Subnet ID for private endpoints. |
-| `appgw_subnet_id` | Subnet ID for the Application Gateway. Empty string if `enable_appgw_subnet` is `false`. |
+| `appgw_subnet_id` | Subnet ID for the Application Gateway. `null` if `enable_appgw_subnet` is `false`. |
+| `aks_nodes_nsg_id` | NSG resource ID for the AKS nodes subnet. |
+| `aks_pods_nsg_id` | NSG resource ID for the AKS pods subnet. |
+| `private_endpoints_nsg_id` | NSG resource ID for the private endpoints subnet. |
+| `appgw_nsg_id` | NSG resource ID for the Application Gateway subnet. `null` if `enable_appgw_subnet` is `false`. |
 
 ## Security Notes
 

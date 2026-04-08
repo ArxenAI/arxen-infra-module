@@ -27,13 +27,19 @@ resource "azurerm_kubernetes_cluster" "main" {
   role_based_access_control_enabled = true
   local_account_disabled            = true
 
+  # CMK disk encryption — applied at the cluster level to cover all node OS disks.
+  # null means platform-managed keys (acceptable for dev/stage); prod must supply a DES ID.
+  disk_encryption_set_id = var.disk_encryption_set_id
+
   default_node_pool {
     name           = "system"
     node_count     = var.node_count
     vm_size        = var.node_vm_size
     vnet_subnet_id = var.vnet_subnet_id
-    # Ephemeral OS disks reduce attack surface and improve node startup time
-    os_disk_type = "Ephemeral"
+    # Managed disks are required when disk_encryption_set_id is set (Ephemeral disks
+    # cannot be encrypted with a customer-managed key). Use Managed for all envs to
+    # keep behaviour consistent across dev/stage/prod.
+    os_disk_type = "Managed"
     tags         = local.tags
   }
 
@@ -56,5 +62,12 @@ resource "azurerm_kubernetes_cluster" "main" {
   oms_agent {
     log_analytics_workspace_id      = var.log_analytics_workspace_id
     msi_auth_for_monitoring_enabled = true
+  }
+
+  lifecycle {
+    precondition {
+      condition     = var.environment != "prod" || var.disk_encryption_set_id != null
+      error_message = "disk_encryption_set_id must be set in prod environments (CMK node disk encryption is required)."
+    }
   }
 }

@@ -57,3 +57,19 @@ variable "sku" {
     error_message = "sku must be 'PerGB2018' or 'CapacityReservation'."
   }
 }
+
+variable "application_insights_enabled" {
+  type        = bool
+  description = "Whether to provision an Application Insights instance backed by the Log Analytics Workspace. Provides Azure Monitor metrics, distributed tracing, and live telemetry."
+  default     = true
+}
+
+variable "application_insights_type" {
+  type        = string
+  description = "Application type for Application Insights telemetry categorization."
+  default     = "web"
+  validation {
+    condition     = contains(["web", "other", "java", "Node.JS", "MobileCenter"], var.application_insights_type)
+    error_message = "application_insights_type must be one of: web, other, java, Node.JS, MobileCenter."
+  }
+}

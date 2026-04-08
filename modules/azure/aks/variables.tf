@@ -84,3 +84,9 @@ variable "admin_group_object_ids" {
   description = "List of Azure AD group object IDs to grant cluster admin role."
   default     = []
 }
+
+variable "disk_encryption_set_id" {
+  type        = string
+  description = "Resource ID of an Azure Disk Encryption Set for node OS disk CMK encryption. Required in prod environments per SPEC.md security standards. Set to null to use platform-managed keys (dev/stage only)."
+  default     = null
+}

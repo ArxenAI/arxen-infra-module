@@ -41,3 +41,27 @@ output "appgw_subnet_id" {
   value       = var.enable_appgw_subnet ? azurerm_subnet.appgw[0].id : null
   sensitive   = false
 }
+
+output "aks_nodes_nsg_id" {
+  description = "NSG resource ID for the AKS nodes subnet. Use to add custom security rules."
+  value       = azurerm_network_security_group.aks_nodes.id
+  sensitive   = false
+}
+
+output "aks_pods_nsg_id" {
+  description = "NSG resource ID for the AKS pods subnet. Use to add custom security rules."
+  value       = azurerm_network_security_group.aks_pods.id
+  sensitive   = false
+}
+
+output "private_endpoints_nsg_id" {
+  description = "NSG resource ID for the private endpoints subnet. Use to add custom security rules."
+  value       = azurerm_network_security_group.private_endpoints.id
+  sensitive   = false
+}
+
+output "appgw_nsg_id" {
+  description = "NSG resource ID for the Application Gateway subnet. null if enable_appgw_subnet is false."
+  value       = var.enable_appgw_subnet ? azurerm_network_security_group.appgw[0].id : null
+  sensitive   = false
+}

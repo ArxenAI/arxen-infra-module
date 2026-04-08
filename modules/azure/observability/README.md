@@ -1,6 +1,6 @@
 # azure/observability
 
-Provisions an **Azure Log Analytics Workspace** as the central log and metrics sink for an Arxen tenant environment. This is the first module deployed in the observability golden path and its outputs are consumed by downstream modules (`azure/aks` and `azure/ai-workspace`).
+Provisions an **Azure Log Analytics Workspace** and an **Azure Monitor Application Insights** instance as the central observability stack for an Arxen tenant environment. The workspace-based Application Insights instance stores all telemetry in the Log Analytics Workspace, enabling unified log queries across infrastructure and application layers. Outputs are consumed by downstream modules (`azure/aks` and `azure/ai-workspace`).
 
 ## Usage
 
@@ -15,6 +15,10 @@ module "observability" {
 
   retention_in_days = 90
 
+  # Application Insights is enabled by default. Disable for infra-only stacks.
+  application_insights_enabled = true
+  application_insights_type    = "web"
+
   tags = {
     cost_center = "platform"
     team        = "infra"
@@ -27,6 +31,13 @@ module "aks" {
 
   log_analytics_workspace_id = module.observability.workspace_id
   # ...
+}
+
+# Pass connection string to an application via Key Vault (never plaintext)
+resource "azurerm_key_vault_secret" "appi_connection_string" {
+  name         = "appi-connection-string"
+  value        = module.observability.application_insights_connection_string
+  key_vault_id = module.keyvault.vault_id
 }
 ```
 
@@ -52,14 +63,19 @@ For example, tenant `a1b2c3d4-...` in `prod` becomes `prod-log-a1b2c3d4`.
 | `name_override` | `string` | `null` | no | Override the auto-generated resource name. |
 | `retention_in_days` | `number` | `30` | no | Number of days to retain logs in the workspace. |
 | `sku` | `string` | `"PerGB2018"` | no | Log Analytics Workspace SKU. |
+| `application_insights_enabled` | `bool` | `true` | no | Whether to provision Application Insights backed by the workspace. |
+| `application_insights_type` | `string` | `"web"` | no | Application Insights type: `web`, `other`, `java`, `Node.JS`, `MobileCenter`. |
 
 ## Outputs
 
-| Name | Description |
-|---|---|
-| `resource_id` | The ARM resource ID of the Log Analytics Workspace. |
-| `resource_name` | The name of the Log Analytics Workspace as provisioned. |
-| `workspace_id` | The Log Analytics Workspace ID (GUID) used by AKS and diagnostic settings. |
+| Name | Sensitive | Description |
+|---|---|---|
+| `resource_id` | no | ARM resource ID of the Log Analytics Workspace. |
+| `resource_name` | no | Name of the Log Analytics Workspace as provisioned. |
+| `workspace_id` | no | Workspace ID (GUID) used by AKS OMS agent and `azurerm_monitor_diagnostic_setting` resources. |
+| `application_insights_id` | no | ARM resource ID of the Application Insights instance. `null` when disabled. |
+| `application_insights_instrumentation_key` | **yes** | Instrumentation key. Do not store in plaintext — write to Key Vault. |
+| `application_insights_connection_string` | **yes** | Connection string. Do not store in plaintext — write to Key Vault. |
 
 ## Default Tags
 

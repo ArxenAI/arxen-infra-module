@@ -24,7 +24,7 @@ All settings in the table below are hardcoded in `main.tf` and cannot be changed
 | `local_account_disabled` | `true` | No static `kubectl` credentials — AAD-only access enforced |
 | `identity.type` | `"SystemAssigned"` | Cluster uses a managed identity; no service principal or static key |
 | `msi_auth_for_monitoring_enabled` | `true` | OMS agent authenticates via managed identity — no static workspace key |
-| `os_disk_type` | `"Ephemeral"` | Reduces attack surface; node state is not persisted across reboots |
+| `os_disk_type` | `"Managed"` | Required for CMK disk encryption; consistent across all environments |
 
 ---
 
@@ -92,6 +92,7 @@ module "aks" {
 | `node_count` | `number` | no | `2` | Initial number of nodes in the default node pool (1–100). |
 | `node_vm_size` | `string` | no | `"Standard_D4s_v5"` | Azure VM SKU for the default node pool. |
 | `admin_group_object_ids` | `list(string)` | no | `[]` | Azure AD group object IDs granted cluster admin role. |
+| `disk_encryption_set_id` | `string` | no* | `null` | Disk Encryption Set resource ID for CMK node OS disk encryption. **Required in `prod`.** |
 | `name_override` | `string` | no | `null` | Override the auto-generated cluster name. |
 | `tags` | `map(string)` | no | `{}` | Additional tags merged with module defaults. |
 
